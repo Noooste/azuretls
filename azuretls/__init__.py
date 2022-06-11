@@ -9,10 +9,13 @@ _s.tls = None
 def init_api_remote(ip, key):
     _s.headers = {"authorization" : str(key)}
     
-    if "http://" in ip or "https://" in ip:
-        raise Exception("do not set scheme in address ip")
+    if not "http://" in ip and not "https://" in ip:
+        ip = "https://" + ip
+    
+    if ip[-1] == "/":
+        ip = ip[:-1]
         
-    _s.local_endpoint = "https://" + ip
+    _s.local_endpoint = ip
     return ping()
 
 def ping(timeout=5):
@@ -361,7 +364,7 @@ class Session:
             "header" : {str(key): str(value) for key, value in headers.items()},
             "header-order" : [str(key) for key in headers.keys()] ,
             "proxy" : proxies,
-            "browser" : self.navigator,
+            "navigator" : self.navigator,
             "timeout" : timeout,
             "allow-redirect" : allow_redirects,
             "server-push" : server_push,
@@ -376,15 +379,6 @@ class Session:
         else:
             response.server_push = []
         
-        """
-        pushes = self.call("/server-push", {"rid", response.id})
-        
-        response.server_push = []
-        
-        if pushes:
-            for push in pushes:
-                response.server_push.append(self.Response(push))
-        """
         self.update(response)
         return response
         
@@ -423,30 +417,4 @@ class Session:
 
         def __repr__(self):
             return "status : " + str(self.status_code)
-
-class Cookies:
-    
-    def __init__(self, cookies):
-        self.cookies = cookies
-    
-    def loads(self):
-        if self.cookies == "{}" or self.cookies == {}: return {}
-        cookies = {}
-        if "/,/" in self.cookies:
-            cookies = {
-                element.split("; ")[0].split("=")[0] : "=".join(element.split("; ")[0].split("=")[1:])
-                for element in self.cookies.split("/,/")
-            }
-        else:
-            cookies = {
-                element.split("=")[0] : "=".join(element.split("=")[1:])
-                for element in self.cookies.split("; ")
-            }
-            
-        return cookies;
-    
-    def dumps(self):
-        return "; ".join([key+"="+value for key, value in self.cookies.items()])
-        
-        
         

@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
   name = 'azuretls',
   packages = ['azuretls'],  
-  version = '0.2',     
+  version = '0.2.1',     
   license='MIT',       
   description = 'TYPE YOUR DESCRIPTION HERE',  
   author = 'Noste',                  
   author_email = 'nooooste@gmail.com',     
   url = 'https://github.com/Noooste/azuretls', 
-  download_url = 'https://github.com/Noooste/azuretls/archive/refs/tags/0.2.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/Noooste/azuretls/archive/refs/tags/0.2.1.tar.gz',    # I explain this later on
   keywords = ['TLS', 'API', 'AZURE'],  
   install_requires=[
           'requests',

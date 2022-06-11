@@ -1,2 +1,2 @@
-dist
-azuretls.egg-info
+./dist/
+./azuretls.egg-info/

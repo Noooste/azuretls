@@ -346,12 +346,6 @@ class Session:
         )    
     
     def send(self, method, url, data="", json={}, timeout=30, allow_redirects=True, server_push=False, verify=True, headers={}, proxies=""):
-        if not headers:
-            headers = {key : value for key, value in self.headers.items()}
-            
-        if not proxies:
-            proxies = self.proxies
-            
         if json != {}:
             data = _json.dumps(json)
             headers["Content-Type"] = "application/json"    
@@ -361,10 +355,10 @@ class Session:
             "url" : url,
             "data" : data,
             "pheader" : self.pheaders,
-            "header" : {str(key): str(value) for key, value in headers.items()},
+            "header" : {str(key): str(value) for key, value in headers.items()} or {key : value for key, value in self.headers.items()},
             "header-order" : [str(key) for key in headers.keys()] ,
-            "proxy" : proxies,
-            "navigator" : self.navigator,
+            "proxy" : proxies or self.proxy or self.proxies,
+            "browser" : self.navigator,
             "timeout" : timeout,
             "allow-redirect" : allow_redirects,
             "server-push" : server_push,

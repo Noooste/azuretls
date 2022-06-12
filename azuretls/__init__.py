@@ -56,8 +56,11 @@ class Session:
         self.pheaders = ["method", "authority", "scheme", "path"]
         self.navigator = "chrome" # "chrome" or "firefox"
         self.cookies = {}
-        self.proxies = "" #http://username:password@ip:port
+        
+        self.proxies = "" #depreciated -> use session.proxy instead
+        self.proxy = "" #http://username:password@hostname.com:443
     
+        
     def call(self, path, information={}):
         resp = _s.post(_s.local_endpoint+path+"?sid="+str(self.id), json=information, verify=False)
         return _json.loads(resp.text)

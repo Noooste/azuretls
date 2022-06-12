@@ -358,7 +358,7 @@ class Session:
             "header" : {str(key): str(value) for key, value in headers.items()} or {key : value for key, value in self.headers.items()},
             "header-order" : [str(key) for key in headers.keys()] ,
             "proxy" : proxies or self.proxy or self.proxies,
-            "browser" : self.navigator,
+            "navigator" : self.navigator,
             "timeout" : timeout,
             "allow-redirect" : allow_redirects,
             "server-push" : server_push,

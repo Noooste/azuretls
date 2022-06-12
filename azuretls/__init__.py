@@ -359,7 +359,7 @@ class Session:
             "data" : data,
             "pheader" : self.pheaders,
             "header" : {str(key): str(value) for key, value in headers.items()} or {key : value for key, value in self.headers.items()},
-            "header-order" : [str(key) for key in headers.keys()] ,
+            "header-order" : [str(key) for key in headers.keys()] or [str(key) for key in self.headers.keys()],
             "proxy" : proxies or self.proxy or self.proxies,
             "navigator" : self.navigator,
             "timeout" : timeout,

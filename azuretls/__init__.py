@@ -153,7 +153,7 @@ class Session:
             
         • More information about all HTTP2 SETTINGS : https://httpwg.org/specs/rfc7540.html#SETTINGS
         '''
-        result = self.call("/session/http2/http2-settings", {
+        result = self.call("/session/http2/settings", {
                 "settings" : settings
             })
         

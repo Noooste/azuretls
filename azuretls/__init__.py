@@ -69,7 +69,25 @@ class Session:
         return self.call("/session/cookies", information={
                     "domain" : domain
             })
+    
+    def close(self):
+        result = self.call("/session/close")
+    
+        if not result["success"]:
+            settingsErr = result["error"]
+            raise Exception("error : %s" % settingsErr)
+        else:
+            return True
         
+    def keep_alive(self):
+        result = self.call("/session/keep-alive")
+    
+        if not result["success"]:
+            settingsErr = result["error"]
+            raise Exception("error : %s" % settingsErr)
+        else:
+            return True
+            
     def apply_ja3(self, ja3 : str, specifications={}):
         '''
         Parameters : 
@@ -262,7 +280,7 @@ class Session:
             raise Exception("Streams error : %s" % streamErr)
         else:
             return True
-
+    
     def get(self, url, data="", json={}, timeout=30, allow_redirects=True, server_push=False, verify=True, headers={}, proxies=""):
         return self.send(
             "GET", 

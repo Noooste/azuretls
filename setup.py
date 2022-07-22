@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'azuretls',
   packages = ['azuretls'],  
-  version = '0.2.9',     
+  version = '0.2.10',     
   license='MIT',       
   author = 'Noste',                  
   author_email = 'nooooste@gmail.com',     

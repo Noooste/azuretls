@@ -54,6 +54,9 @@ class Session:
         }
         
         self.pheaders = ["method", "authority", "scheme", "path"]
+        
+        self.headers_order = []
+        
         self.navigator = "chrome" # "chrome" or "firefox"
         self.cookies = {}
         
@@ -367,25 +370,32 @@ class Session:
         )    
     
     def send(self, method, url, data="", json={}, timeout=30, allow_redirects=True, server_push=False, verify=True, headers={}, proxies=""):
+        
+        if not headers:
+            headers = {}
+            for key, value in self.headers.items():
+                headers[key] = value
+            
         if json != {}:
             data = _json.dumps(json)
-            headers["Content-Type"] = "application/json"    
+            if not 'Content-Type' in headers and not 'content-type' in headers:
+                headers["content-type"] = "application/json"    
         
         information = {
             "method" : method,
             "url" : url,
             "data" : data,
             "pheader" : self.pheaders,
-            "header" : {str(key): str(value) for key, value in headers.items()} or {key : value for key, value in self.headers.items()},
-            "header-order" : [str(key) for key in headers.keys()] or [str(key) for key in self.headers.keys()],
+            "header" : {str(key): str(value) for key, value in headers.items()},
+            "header-order" : self.headers_order or [str(key) for key in headers.keys()] or [str(key) for key in self.headers.keys()],
             "proxy" : proxies or self.proxy or self.proxies,
             "navigator" : self.navigator,
             "timeout" : timeout,
             "allow-redirect" : allow_redirects,
             "server-push" : server_push,
             "verify" : verify
-            }
-        
+        }
+                
         result = self.call("/session/request", information)
         response = self.Response(result)
         
